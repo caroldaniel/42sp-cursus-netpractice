@@ -29,6 +29,14 @@
 	<a href="#TCP">What is TCP and IP Adress?</a>
 	<span> • </span>
 	<a href="#IPv4">IPv4 and Subnet Masks</a>
+	<span> • </span>
+	<a href="#Connecting">Connecting multiple devices</a>
+	<span> • </span>
+	<a href="#Switch">Switch</a>
+	<span> • </span>
+	<a href="#Router">Router</a>
+	<span> • </span>
+	<a href="#RouterTable">Router Table</a>
 </b></h3>
 
 ---
@@ -85,39 +93,39 @@ There are two ways to represent a mask: by a full IP Mask or by CIDR.
 
 Let's look at an example:
 
-	IP Address:			153.172.250.12
-	Subnet Mask:		255.255.255.0
-	CIDR:				/24
+	IP Address:		153.172.250.12
+	Subnet Mask:	255.255.255.0
+	CIDR:			/24
 
 In binary, respectively, we have:
 
-	IP Address:			10011001.10101100.11111010.00001100
-	Subnet Mask:		11111111.11111111.11111111.00000000
+	IP Address:		10011001.10101100.11111010.00001100
+	Subnet Mask:	11111111.11111111.11111111.00000000
 
 According to the mask, the first 24-bits are marked as part of the Network Address. That means that the first 24-bits of the IP Address represent the Network Address.
 
 	Network Address:	10011001.10101100.11111010.????????
-				 or:	153.172.250.?
-			IP/CIDR:	153.172.250.12/24
+	or:					153.172.250.?
+	IP/CIDR:			153.172.250.12/24
 
 In practical terms, we can say that any device with IPs ranging from `192.172.250.0` to `192.172.250.255` are in the same network and can, therefore, communicate with each other freely.
 
 Let's look at another example:
 
-	IP Address:			153.172.175.12
-	Subnet Mask:		255.255.240.0
-	CIDR:				/20
+	IP Address:		153.172.175.12
+	Subnet Mask:	255.255.240.0
+	CIDR:			/20
 
 In binary, respectively, we have:
 
-	IP Address:			10011001.10101100.10101111.00001100
-	Subnet Mask:		11111111.11111111.11110000.00000000
+	IP Address:		10011001.10101100.10101111.00001100
+	Subnet Mask:	11111111.11111111.11110000.00000000
 
 According to the mask, now the first 20-bits are marked as part of the Network Address. That means that the first 20-bits of the IP Address represent the Network Address.
 
 	Network Address:	10011001.10101100.1010????.????????
-				 or:	153.172.(160-175).(0-255)
-			IP/CIDR:	153.172.175.12/20
+	or:					153.172.(160-175).(0-255)
+	IP/CIDR:			153.172.175.12/20
 
 In practical terms, we can say that any device with IPs ranging from `192.172.160.0` to `192.172.175.255` are in the same network and can, therefore, communicate with each other freely.
 
@@ -179,3 +187,56 @@ That means, in practical terms, that we must choose network masks carefully, hav
 | /2 |	192.0.0.0 |	63.255.255.255 |	1,073,741,824 |	1,073,741,822
 | /1 |	128.0.0.0 |	127.255.255.255 |	2,147,483,648 |	2,147,483,646
 | /0 |	0.0.0.0 |	255.255.255.255 |	4,294,967,296 |	4,294,967,294
+
+<h2 id="Connecting">
+Connecting multiple devices
+</h2>
+
+As it was previously said, Public Networks like the **Internet** are estabilished by some telecommunication provider in order to connect devices from all around the globe.
+
+A **Public IP Address** is assigned by your **Internet Service Provider** (or **ISP**), directly into your personal **router**, and allows connectivity directly to your personal, private network.
+
+Your private network is established by a **switch** located inside the router provided to you by your ISP. Your router is responsible for assigning a **Private IP Address** directly to any device connected to your private network, following the previously mentioned rules regarding subnet masks and IPs.
+
+There are some IP addresses that are reserved for specific uses. Therefore, when assigning a IP Address inside of a network connected to the internet, you must pay attention to the list below below:
+
+IP  Address Range | Reserved  |
+----------------------|-----------|
+10.0.0.0 - 10.255.255.255 | reserved for private IPs (Class A)
+127.0.0.0 - 127.255.255.255 | reserved for loopback and internal testing
+172.16.0.0 - 172.31.255 | reserved for private IPs (Class B)
+192.168.0.0 - 192.168.0.0 | reserved for private IPs (Class C)
+224.0.0.0 – 239.255.255.255 | reserved  for  multicast
+240.0.0.0 – 255.255.255.255 | reserved for experimental, used for research
+
+<h3 id="Switch">
+Switch
+</h3>
+
+A network **switch** is responsible for distributing packets between devices within the same network - usually, a local one (called LAN). A switch does not have any interface and it cannot talk to a network outside of its own.
+
+![switch-42](./imgs/switch-42.png)
+
+<h3 id="Router">
+Router
+</h3>
+
+A **router** is responsible for connecting multiple networks together. Every router has an interface for every network it connects it to.
+
+![router-42](./imgs/router-42.png)
+
+Since it connects multiple networks together, the range of possible IP addresses on one of its interfaces must never overlap the range of its other interfaces. An overlap of ranges would imply the interfaces belong to the same network.
+
+<h3 id="RouterTable">
+Routing Table
+</h3>
+
+A **Routing Table** is a simple data table stored in a router or network host that lists all the routes to a particular network destination.
+
+![route-table](./imgs/route-table.png)
+
+In Net Practice, a routing table consists of only two simple informations:
+
+- **Destination** (on the left): it's the IP address that you want to send a package to, combined with the CIDR of that network: 190.3.2.252/30. If you don't want to specify a destination, or you want to make it available for the entire network, you can just set it to default or 0.0.0.0/0.
+
+- **Next Hop** (on the right): it's the IP address of the next router that you need to send the packages to in order to reach the destination-network.
