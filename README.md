@@ -371,6 +371,28 @@ The router R routing table, however, has a next hop which doesn't match any Inte
 
 ![level07](./imgs/level07.png)
 
+In this level, the concept of overlapping is fundamental to its resolution.
+
+When analyzing the schema, you are able to notice the existence of three separate networks.
+
+- **Network 1**: Between Interface A1 and Interface R11
+- **Network 2**: Between Interface R12 and Interface R21
+- **Network 3**: Between Interface R22 and Interface C1
+
+Each one of theses networks must have their own range of IPs and can have their own subnet masks. There can be no overlaps of IPs between networks of the same router.
+
+Since the only two IPs from Router R1's Interface are already set, then you must choose the masks of these netwqorks carefully. The easiest way to do this is to choose a mask that can split the network into small-range subnets. I chose a CIDR of `/28` for all the networks, which gives me 16 total IP Addresses each, more than enough for this particular situation.
+
+It's important to notice, though, that you don't need to pick the same mask for all networks. IUt's all up to you, really.
+
+With a mask of `/28` we can then choose the IPs for each host as follows:
+
+- **Network 1**: From `119.198.14.0` to `119.198.14.15` (extremities excluded, as well as Interface R11's own IP of `119.198.14.1`)
+- **Network 2**: From `119.198.14.240` to `119.198.14.255` (extremities excluded, as well as Interface R12's own IP of `119.198.14.254`)
+- **Network 3**: You can chose the best IPs based on your own criteria. I picked a range from `119.198.14.128` to `119.198.14.143` (extremities excluded).
+
+After setting the appropriate IP Addresses, you need to fill in the routing tables accordingly, considering that client A's destination must be client C's Interface IP, and vice versa. The routers must have their next hops as each other's Interfaces to allow forward and backward communication as well.
+
 </details>
 
 ---
@@ -380,6 +402,14 @@ The router R routing table, however, has a next hop which doesn't match any Inte
   <br>
 
 ![level08](./imgs/level08.png)
+
+In this level, you need to establish communication with the internet from two different hosts: client C and client D. 
+
+The internet has a routing table with a destination route of `163.14.136.0/26`. That mean that it can send back packets from IPs ranging from `163.14.136.0` to `163.14.136.63`.
+
+That means that both client C and D must be within this range, without their networks overlapping each other.
+
+
 
 </details>
 
