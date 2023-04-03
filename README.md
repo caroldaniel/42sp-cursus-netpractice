@@ -36,7 +36,9 @@
 	<span> • </span>
 	<a href="#Router">Router</a>
 	<span> • </span>
-	<a href="#RouterTable">Router Table</a>
+	<a href="#RouterTable">Routing Table</a>
+	<span> • </span>
+	<a href="#NetPractice">Net Practice</a>
 </b></h3>
 
 ---
@@ -198,7 +200,7 @@ A **Public IP Address** is assigned by your **Internet Service Provider** (or **
 
 Your private network is established by a **switch** located inside the router provided to you by your ISP. Your router is responsible for assigning a **Private IP Address** directly to any device connected to your private network, following the previously mentioned rules regarding subnet masks and IPs.
 
-There are some IP addresses that are reserved for specific uses. Therefore, when assigning a IP Address inside of a network connected to the internet, you must pay attention to the list below below:
+There are some IP addresses that are reserved for specific uses. Therefore, when assigning a IP Address inside of a network connected to the internet, you must pay attention to the list below:
 
 IP  Address Range | Reserved  |
 ----------------------|-----------|
@@ -240,3 +242,147 @@ In Net Practice, a routing table consists of only two simple informations:
 - **Destination** (on the left): it's the IP address that you want to send a package to, combined with the CIDR of that network: 190.3.2.252/30. If you don't want to specify a destination, or you want to make it available for the entire network, you can just set it to default or 0.0.0.0/0.
 
 - **Next Hop** (on the right): it's the IP address of the next router that you need to send the packages to in order to reach the destination-network.
+
+<h1 id="NetPractice">
+Net Practice
+</h1>
+
+<details>
+  <summary>Level 1</summary>
+  <br>
+  
+![level01](./imgs/level01.png)
+
+The first exercise on the list is a simple problem of direct communication between each 2 devices. You need to make sure that each two devices that need to communicate between each other are, in fact, in the same network.
+
+For Client A and Client B, who have both have subnet masks of `255.255.255.0` or CIDR `/24`, you need to make sure that the IP Address for A matches the same Network from B, which is `104.94.23.0/24`. That means Client A IP Address can be from range `104.94.23.1` from ``104.94.23.254` (remembering the extremities from the range are reserved for network and broadcast, respectively).
+
+For Client C and Client D, the same rule applies, but now they both have subnet masks of `255.255.0.0` or CIDR `/16`. Therefore, you need to make sure that the IP Address for D matches the same Network fromC, which is `211.191.0.0/16`. That means Client D IP Address can be from range `211.191.0.1` from ``211.191.255.254`.
+
+</details>
+
+---
+
+<details>
+  <summary>Level 2</summary>
+  <br>
+
+![level02](./imgs/level02.png)
+
+For this level, it's important to keep a few things in mind.
+
+First, it's the necessity for all devices in the same network to have the same mask.
+
+Second, you cannot use reserved IPs for private addresses that are not specific for this use.
+
+For the connection between Client A and Client B, both of them must have the same mask `255.255.255.224`, or CIDR `/27`. Since the IP Address for Client B is already set in `192.168.36.222`, then you can infer that the network range is between `192.168.36.192` and `192.168.36.223`, extremities excluded. Client A can be anywhere within this range.
+
+For CLient C and Client D, however, we have a mask of `255.255.255.252`, or CIDR `/30`. For this mask, we only have 4 IPs in range, and only 2 available for use. When you choose the IPs for them, you must make sure they are not reserved, and that the 2 last bits are not all 0s (first in range) nor all 1s (reserved for broadcast).
+
+</details>
+
+---
+
+<details>
+  <summary>Level 3</summary>
+  <br>
+
+![level03](./imgs/level03.png)
+
+This is the first contact we have with switches. Its use is quite similar to the previous exercises, the only difference now beeing the possibility of communication between 3 separate devices.
+
+All 3 clients must be on the same network. The mask for Client C is set as `255.255.255.128`, or CIDR `/25`. Therefore, this will be the mask for every other host. And the IP Address for Client A is set on `104.198.73.125`, so we can also infer that the range for this particular network can only be from `104.198.73.0` and `104.198.73.127`, extremities excluded.
+
+</details>
+
+---
+
+<details>
+  <summary>Level 4</summary>
+  <br>
+
+![level04](./imgs/level04.png)
+
+This exercise introduces the concept of a router. This router in particular has 3 separate interfaces, each with an IP Address and a Subnet Mask.
+
+When choosing the IP Address and Mask for the router R **Interface R1**, you must make sure that there are no overlaps of IP ranges between interfaces.
+
+**Interface R2**, for example, has a range of IPs from `63.12.111.0` and `63.12.111.127`, while **Interface R3** has a range from `63.12.111.192` and `63.12.111.255`. Therefore, you must make sure the mask you choose for this particular network will not cause it to share any of those IPs.
+
+To do so, take a look at the IP Address from Client A, set in `63.12.111.132`. This IP is located exactly in between the ranges previously mentioned. There are only 63 possible addresses in this area (`63.12.111.128` - `63.12.111.191`), so you can use a mask of CIDR `/27` or above. I chose a mask of `255.255.255.240`, or CIDR `/28`, for reassurence.
+
+Applying this mask on the IP Address of Client A, we have the range from `63.12.111.128` to `63.12.111.143`, extremities excluded, all the while making sure there are no overlaps in router R.
+
+</details>
+
+---
+
+<details>
+  <summary>Level 5</summary>
+  <br>
+
+![level05](./imgs/level05.png)
+
+In this exercise, a Routing Table is introduced for the first time. The idea here is that each host must have a routing table that can connect to the router and each other.
+
+First, let's start stablishing the IP addresses and Mask for each host.
+
+Client A must be located on the same network as Interface R1. To do so, it must share the same mask `255.255.255.128` or CIDR `/25` and must be in the range of Addresses between `74.150.109.0` and `74.150.109.127`, extremities excluded.
+
+Client B must be located on the same network as Interface R2. To do so, it must share the same mask `255.255.192.0` or CIDR `/18` and must be in the range of Addresses between `158.42.64.0` and `158.42.127.255`, extremities excluded.
+
+Now, let's configure the routing tables. For client A, you must set it up in a way that it can allow communication with client B. To do so, you have two options: either you point out the destination IP as the address for client B (`158.42.127.42/18`), or you leave it at **default** (`0.0.0.0/0`).
+
+The next hop for both tables will be the IP address of the respective router R Interface - the closest point of connection will allow for the communication to establish.
+
+</details>
+
+---
+
+<details>
+  <summary>Level 6</summary>
+  <br>
+
+![level06](./imgs/level06.png)
+
+</details>
+
+---
+
+<details>
+  <summary>Level 7</summary>
+  <br>
+
+![level07](./imgs/level07.png)
+
+</details>
+
+---
+
+<details>
+  <summary>Level 8</summary>
+  <br>
+
+![level08](./imgs/level08.png)
+
+</details>
+
+---
+
+<details>
+  <summary>Level 9</summary>
+  <br>
+
+![level09](./imgs/level09.png)
+
+</details>
+
+---
+
+<details>
+  <summary>Level 10</summary>
+  <br>
+
+![level10](./imgs/level10.png)
+
+</details>
