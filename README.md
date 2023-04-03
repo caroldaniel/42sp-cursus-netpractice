@@ -437,6 +437,26 @@ After that, fill in the routing tables considering that Routers R1 and R2's next
 
 ![level09](./imgs/level09.png)
 
+This level is an aggregation of all concepts previously seen in this exercise list.
+
+To start, as usual, you need to access all the IP Addresses correctly. Keep in mind which Addresses are reserved, and which belong to the same network.
+
+There are 4 configurable networks in this level:
+
+- **Network 1**: Between Interface A1, Interface B1 and Interface R11
+- **Network 2**: Between Interface C1 and Interface R22
+- **Network 3**: Between Interface D1 and Interface R23
+- **Network 3**: Between Interface R13 and Interface R21
+
+For each Network there is a specific mask and IP Adress range. For my resolution, I chose the following settings:
+
+- **Network 1**: Mask `/25`, and IP Adresses ranging from `142.168.31.0` and `142.168.31.127`.
+- **Network 2**: Mask `/24`, and IP Adresses ranging from `42.42.42.0` and `42.42.42.244`.
+- **Network 2**: Mask `/18` (pre-set), and IP Adresses ranging from `102.155.128.0` and `102.155.128.255` (Interface R23 is already pre-set to the client D routing table next hop IP`102.155.167.244`).
+- **Network 2**: Mask `/30` (pre-set), and IP Adresses ranging from `37.219.16.252` and `37.219.16.255`.
+
+After that, we need to set the routing tables to allow access between networks. The most important one is the Internet Routing Table, that must have the *meson* and the *cation* addresses, since they are the two hosts that need to communicate directly to it.
+
 </details>
 
 ---
