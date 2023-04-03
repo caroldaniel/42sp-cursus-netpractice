@@ -403,13 +403,29 @@ After setting the appropriate IP Addresses, you need to fill in the routing tabl
 
 ![level08](./imgs/level08.png)
 
-In this level, you need to establish communication with the internet from two different hosts: client C and client D. 
+In this level, you need to establish communication with the internet from two different hosts: client C and client D.
 
 The internet has a routing table with a destination route of `163.14.136.0/26`. That mean that it can send back packets from IPs ranging from `163.14.136.0` to `163.14.136.63`.
 
-That means that both client C and D must be within this range, without their networks overlapping each other.
+That means that all networks on the way to the packets final destination must be within this range, without their IPs overlapping each other.
 
+As the previous exercise, we also have 3 networks to establish:
 
+- **Network 1**: Between Interface C1 and Interface R22
+- **Network 2**: Between Interface D1 and Interface R23
+- **Network 3**: Between Interface R21 and Interface R13
+
+The easiest solution is to split the total range into 4 using a mask of `/28`.
+
+Considering that the next hop for the router R2's routing table is `163.14.136.62`, this should be the IP Address for the Interface R13.
+
+With those constraints in mind, you can assign the IPs as follows: 
+
+- **Network 1**: From `163.14.136.16` to `163.14.136.30` (extremities excluded)
+- **Network 2**: From `163.14.136.0` to `163.14.136.15` (extremities excluded)
+- **Network 3**: From `163.14.136.48` to `163.14.136.63` (extremities excluded).
+
+After that, fill in the routing tables considering that Routers R1 and R2's next hops must be each others, and the destination of clients C and D must be default.
 
 </details>
 
