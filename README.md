@@ -345,6 +345,22 @@ The next hop for both tables will be the IP address of the respective router R I
 
 ![level06](./imgs/level06.png)
 
+This level introduces the concept of the Internet.
+
+The Internet is simply a sort-of-router that has many interfaces in which it can connect. The purpose for this exercise is to connect client A all the all to the Internet.
+
+First, let's set all IP Addresses and Masks. For client A and router R's Interface R1, which are in the same local network via switch, we must set them with the same mask `255.255.255.128` or CIDR `/25`.
+
+Interface R1 must have an IP in the range of `45.149.96.128` and `45.149.96.255`, extremities excluded.
+
+Now, for the routing tables, we must have in mind that we must connect client A to the Internet and vice-versa.
+
+Client A route destination must be the **Interface Somewhere on the Net**, witch is `8.8.8.8/16` or **default**. The next hop for this table is the router R's Interface R1 IP, `45.149.96.254`, the next logical step to connect to the Internet.
+
+Internet I route destination must be the Interface A1 IP, which is `45.149.96.227/25`, of simply **default**., since the next hop for this route is the Router R's Interface R2.
+
+The router R routing table, however, has a next hop which doesn't match any Interface IP in the schema, so you can set it's destination to **default**, since it won't impact the other connections.
+
 </details>
 
 ---
