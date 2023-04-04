@@ -467,4 +467,24 @@ After that, we need to set the routing tables to allow access between networks. 
 
 ![level10](./imgs/level10.png)
 
+This is one of the most straightforward exercises in this list.
+
+The majority of the settings are already pre-configured. All you need to pay attention to is the overlapping. Since the internet has only onr route configured to the Router R1, then all networks must be withing the same range, without overlapping the subnets.
+
+We have here 4 networks:
+
+- **Network 1**: Between Interface H11, Interface H21 and Interface R11
+- **Network 2**: Between Interface H31 and Interface R22
+- **Network 3**: Between Interface H41 and Interface R23
+- **Network 4**: Between Interface R21 and Interface R13
+  
+For each Network there is a specific mask and IP Adress range. For my resolution, I chose the following settings:
+
+- **Network 1**: Mask `/25`, and IP Adresses ranging from `169.222.32.0` and `169.222.32.127`.
+- **Network 2**: Mask `/28`, and IP Adresses ranging from `169.222.32.224` and `169.222.32.239`.
+- **Network 2**: Mask `/26`, and IP Adresses ranging from `169.222.32.129` and `169.222.32.129`.
+- **Network 2**: Mask `/30`, and IP Adresses ranging from `169.222.32.252` and `169.222.32.255`.
+
+And then, you must configure the routing tables accordingly, having in mind that the internet routing table consists in a single destination of IP `169.222.32.0/24`.
+
 </details>
