@@ -15,9 +15,9 @@
 <h2>
 	Final score
 </h2>
-<img src=https://github.com/caroldaniel/caroldaniel-utils/blob/90108bc7e8a2b7490a08cf20c2fd22034bbb08be/netpractice_grade.png alt="cado-car's 42Project Score"/>
+<img src=https://github.com/caroldaniel/caroldaniel-utils/blob/7ba827bc56e33d925764730f54e0647be6e5db4c/netpractice_grade.png alt="cado-car's 42Project Score"/>
 <h4>Completed</h4>
-<img src=https://github.com/caroldaniel/caroldaniel-utils/blob/90108bc7e8a2b7490a08cf20c2fd22034bbb08be/netpracticem.png alt="cado-car's 42Project Badge"/>
+<img src=https://github.com/caroldaniel/caroldaniel-utils/blob/7ba827bc56e33d925764730f54e0647be6e5db4c/netpracticee.png alt="cado-car's 42Project Badge"/>
 </div>
 
 ---
